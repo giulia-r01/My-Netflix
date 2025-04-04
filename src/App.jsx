@@ -5,7 +5,7 @@ import MyNavbar from "./components/MyNavbar"
 import MyFooter from "./components/MyFooter"
 import MyMain from "./components/MyMain"
 //import ProfilePage from "./components/ProfilePage"
-import SettingPage from "./components/SettingPage"
+//import SettingPage from "./components/SettingPage"
 
 function App() {
   return (
