@@ -19,7 +19,7 @@ function App() {
           <Route element={<MyMain />} path="/home" />
           <Route element={<TvShows />} path="/tv-shows" />
           <Route element={<MovieDetails />} path="/movie-details/:movieId" />
-          <Route path="*" element={<h2>404</h2>} />
+          <Route path="*" element={<h2 className="text-center">404</h2>} />
           {/*<ProfilePage />
       <SettingPage />*/}
         </Routes>

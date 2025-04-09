@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { Spinner, Alert, Card, Container, Row, Col } from "react-bootstrap"
+import { useParams, useNavigate } from "react-router-dom"
+import {
+  Spinner,
+  Alert,
+  Card,
+  Container,
+  Row,
+  Col,
+  ListGroup,
+} from "react-bootstrap"
 
 const MovieDetails = function () {
   const { movieId } = useParams()
+  const navigate = useNavigate()
 
   const [movieDetails, setMovieDetails] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -13,95 +22,137 @@ const MovieDetails = function () {
   const [isLoadingComments, setIsLoadingComments] = useState(true)
   const [isErrorComments, setIsErrorComments] = useState(false)
 
-  useEffect(
-    function () {
-      const detailsURL = "https://www.omdbapi.com/?apikey=f3eecf10&i=" + movieId
-      const commentsURL =
-        "https://striveschool-api.herokuapp.com/api/comments/" + movieId
+  useEffect(() => {
+    if (!movieId) {
+      navigate("/404")
+      return
+    }
 
-      fetch(detailsURL)
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-          } else {
-            throw new Error("Errore nel recupero dettagli film")
-          }
-        })
-        .then((data) => {
-          setMovieDetails(data)
-          setIsLoading(false)
-        })
-        .catch((error) => {
-          console.error("Errore nella fetch:", error)
-          setIsError(true)
-          setIsLoading(false)
-        })
+    const detailsURL = "https://www.omdbapi.com/?apikey=f3eecf10&i=" + movieId
+    const commentsURL =
+      "https://striveschool-api.herokuapp.com/api/comments/" + movieId
 
-      fetch(commentsURL, {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMWU5YTM4MzRiZjAwMTUwMDA2ZjEiLCJpYXQiOjE3NDQyMTA1NTMsImV4cCI6MTc0NTQyMDE1M30.CXWHzuCgzGZ9nReVzPNHBh-Ef3bKe-xwiIwQH1Gndoo",
-        },
+    fetch(detailsURL)
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error("Errore nel recupero dettagli film")
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-          } else {
-            throw new Error("Errore nel recupero dei commenti")
-          }
-        })
-        .then((data) => {
-          console.log(data)
-          setComments(data)
-          setIsLoading(false)
-        })
-        .catch((err) => {
-          console.log("errore nella fetch")
-          setIsLoading(false)
-        })
-    },
-    [movieId]
-  )
+      .then((data) => {
+        if (!data || !data.Title) {
+          // Se l'API non restituisce un film valido
+          navigate("/404")
+          return
+        }
+        setMovieDetails(data)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        console.error("Errore nella fetch:", error)
+        setIsError(true)
+        setIsLoading(false)
+      })
+
+    fetch(commentsURL, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMWU5YTM4MzRiZjAwMTUwMDA2ZjEiLCJpYXQiOjE3NDQyMTA1NTMsImV4cCI6MTc0NTQyMDE1M30.CXWHzuCgzGZ9nReVzPNHBh-Ef3bKe-xwiIwQH1Gndoo",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error("Errore nel recupero dei commenti")
+        }
+      })
+      .then((data) => {
+        console.log(data)
+        setComments(data)
+        setIsLoadingComments(false)
+      })
+      .catch((err) => {
+        console.log("errore nella fetch")
+        setIsLoadingComments(false)
+      })
+  }, [movieId])
 
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col className="pt-4" xs={8} md={6} lg={4}>
-          {isLoading && (
-            <div className="text-center">
-              <Spinner animation="border" variant="primary" />
-            </div>
-          )}
+        {isLoading && (
+          <div className="text-center">
+            <Spinner animation="border" variant="primary" />
+          </div>
+        )}
 
-          {isError && (
-            <Alert variant="danger" className="text-center">
-              Non siamo riusciti a recuperare il dettaglio del film.
-            </Alert>
-          )}
+        {isError && (
+          <Alert variant="danger" className="text-center">
+            Non siamo riusciti a recuperare il dettaglio del film.
+          </Alert>
+        )}
 
-          {!isLoading && !isError && movieDetails && (
-            <Card className="mb-4 mx-auto">
-              <Card.Img variant="top" src={movieDetails.Poster} />
+        {!isLoading && !isError && movieDetails && (
+          <>
+            {/* Card orizzontale su desktop, verticale su mobile */}
+            <Col className="pt-4" xs={12} md={8}>
+              <h3 className="mb-3 text-center">Dettagli</h3>
+              <Card className="d-flex flex-column flex-md-row mb-2 mx-auto align-items-center">
+                {/* Immagine */}
+                <Card.Img variant="left" src={movieDetails.Poster} />
 
-              <Card.Body>
-                <Card.Title>{movieDetails.Title}</Card.Title>
-                <Card.Text>{movieDetails.Plot}</Card.Text>
-                <p>
-                  <strong>Year:</strong> {movieDetails.Year}
-                </p>
-                <p>
-                  <strong>Genre:</strong> {movieDetails.Genre}
-                </p>
-                <p>
-                  <strong>Director:</strong> {movieDetails.Director}
-                </p>
-                <p>
-                  <strong>Rating:</strong> {movieDetails.imdbRating}
-                </p>
-              </Card.Body>
-            </Card>
-          )}
-        </Col>
+                {/* Corpo della Card */}
+                <Card.Body className="ms-md-2 mt-0 pt-md-0">
+                  <Card.Title>{movieDetails.Title}</Card.Title>
+                  <Card.Text>{movieDetails.Plot}</Card.Text>
+                  <p>
+                    <strong>Year:</strong> {movieDetails.Year}
+                  </p>
+                  <p>
+                    <strong>Genre:</strong> {movieDetails.Genre}
+                  </p>
+                  <p>
+                    <strong>Director:</strong> {movieDetails.Director}
+                  </p>
+                  <p>
+                    <strong>Rating:</strong> {movieDetails.imdbRating}
+                  </p>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            {/* Commenti sotto */}
+            {!isLoadingComments &&
+              !isErrorComments &&
+              comments &&
+              comments.length > 0 && (
+                <Col className="pt-4" xs={12} md={4}>
+                  <h3 className="mb-3 text-center">Commenti</h3>
+                  <ListGroup>
+                    {comments.map((comment, index) => (
+                      <ListGroup.Item key={index} className="mb-3">
+                        <strong>Author:</strong> {comment.author}
+                        <br />
+                        <strong>Comment:</strong> {comment.comment}
+                        <br />
+                        <strong>Rate:</strong> {comment.rate}/5
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </Col>
+              )}
+            {!isLoadingComments && comments && comments.length === 0 && (
+              <Col className="pt-4" xs={12} md={4}>
+                <h3 className="mb-3 text-center">Commenti</h3>
+                <Alert variant="danger" className="text-center">
+                  Nessun commento trovato.
+                </Alert>
+              </Col>
+            )}
+          </>
+        )}
       </Row>
     </Container>
   )
