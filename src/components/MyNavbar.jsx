@@ -1,6 +1,9 @@
 import { Nav, Button } from "react-bootstrap"
+import { Link, useLocation } from "react-router-dom"
 
 const MyNavbar = function () {
+  const location = useLocation()
+
   return (
     <>
       <header className="bg-black">
@@ -9,9 +12,9 @@ const MyNavbar = function () {
           data-bs-theme="dark"
         >
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <Link className="navbar-brand" to="/home">
               <img width="100" src="netflix_logo.png" />
-            </a>
+            </Link>
             <Button
               className="navbar-toggler"
               type="button"
@@ -29,14 +32,28 @@ const MyNavbar = function () {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#">
+                  <Link
+                    className={
+                      location.pathname === "/home"
+                        ? "nav-link active"
+                        : "nav-link"
+                    }
+                    to="/home"
+                  >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link active" href="#">
+                  <Link
+                    className={
+                      location.pathname === "/tv-shows"
+                        ? "nav-link active"
+                        : "nav-link"
+                    }
+                    to="/tv-shows"
+                  >
                     Tv Shows
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
