@@ -9,25 +9,54 @@ const MovieDetails = function () {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
 
+  const [comments, setComments] = useState([])
+  const [isLoadingComments, setIsLoadingComments] = useState(true)
+  const [isErrorComments, setIsErrorComments] = useState(false)
+
   useEffect(
     function () {
-      const URL = "https://www.omdbapi.com/?apikey=f3eecf10&i=" + movieId
+      const detailsURL = "https://www.omdbapi.com/?apikey=f3eecf10&i=" + movieId
+      const commentsURL =
+        "https://striveschool-api.herokuapp.com/api/comments/" + movieId
 
-      fetch(URL)
-        .then(function (response) {
+      fetch(detailsURL)
+        .then((response) => {
           if (response.ok) {
             return response.json()
           } else {
             throw new Error("Errore nel recupero dettagli film")
           }
         })
-        .then(function (data) {
+        .then((data) => {
           setMovieDetails(data)
           setIsLoading(false)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.error("Errore nella fetch:", error)
           setIsError(true)
+          setIsLoading(false)
+        })
+
+      fetch(commentsURL, {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2RkMWU5YTM4MzRiZjAwMTUwMDA2ZjEiLCJpYXQiOjE3NDQyMTA1NTMsImV4cCI6MTc0NTQyMDE1M30.CXWHzuCgzGZ9nReVzPNHBh-Ef3bKe-xwiIwQH1Gndoo",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          } else {
+            throw new Error("Errore nel recupero dei commenti")
+          }
+        })
+        .then((data) => {
+          console.log(data)
+          setComments(data)
+          setIsLoading(false)
+        })
+        .catch((err) => {
+          console.log("errore nella fetch")
           setIsLoading(false)
         })
     },
