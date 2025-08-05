@@ -51,7 +51,7 @@ const MovieDetails = function () {
   }, [movieId])
 
   return (
-    <Container>
+    <Container className="pt-5">
       <Row className="justify-content-center">
         {isLoading && (
           <div className="text-center">
