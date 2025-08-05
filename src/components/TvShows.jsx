@@ -88,7 +88,7 @@ class TvShows extends Component {
               </div>
             </div>
           </div>
-          <h3 className="pt-3">Trending now</h3>
+          <h3 className="pt-5">Trending now</h3>
           <MyStarWars />
           <MyLordOfTheRings />
           <MyJurassicPark />

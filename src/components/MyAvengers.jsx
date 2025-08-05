@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { Alert, Spinner } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-const URL = "https://www.omdbapi.com/?apikey=f3eecf10&s=Lord%20of%20The%20Rings"
+const URL = "https://www.omdbapi.com/?apikey=f3eecf10&s=Avengers"
 
-const MyLordOfTheRings = function () {
+const MyAvengers = function () {
   const [films, setFilms] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
@@ -36,12 +36,7 @@ const MyLordOfTheRings = function () {
 
   return (
     <div className="row g-3 pt-5">
-      <h4>
-        <em>
-          Un Anello per domarli, un Anello per trovarli, un Anello per ghermirli
-          e nel buio incatenarli
-        </em>
-      </h4>
+      <h4>Aggiunti di recente:</h4>
       {isLoading && (
         <div className="text-center my-3">
           <Spinner variant="danger" animation="border" />
@@ -50,8 +45,7 @@ const MyLordOfTheRings = function () {
 
       {isError && (
         <Alert variant="danger" className="text-center">
-          <em>Tessssssoro</em> Qualcosa è andato storto nel recupero dati!
-          <img src="gollum.svg" width="35" />
+          <em>Avengers</em> qualcosa è andato storto nel recupero dati!
         </Alert>
       )}
 
@@ -69,5 +63,4 @@ const MyLordOfTheRings = function () {
     </div>
   )
 }
-
-export default MyLordOfTheRings
+export default MyAvengers

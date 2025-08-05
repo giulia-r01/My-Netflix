@@ -4,8 +4,7 @@ import MyNavbar from "./MyNavbar"
 const SettingPage = function () {
   return (
     <>
-      <MyNavbar />
-      <main className="bg-white">
+      <main className="bg-white pt-5">
         <section className="container pt-5 pb-4">
           <div className="row justify-content-center">
             <div className="col-12 col-md-9 col-lg-9 col-xl-9">

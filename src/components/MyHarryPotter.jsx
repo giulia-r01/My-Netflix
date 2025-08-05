@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { Alert, Spinner } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-const URL = "https://www.omdbapi.com/?apikey=f3eecf10&s=Lord%20of%20The%20Rings"
+const URL = "https://www.omdbapi.com/?apikey=f3eecf10&s=Harry%20Potter"
 
-const MyLordOfTheRings = function () {
+const MyHarryPotter = function () {
   const [films, setFilms] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
@@ -36,12 +36,7 @@ const MyLordOfTheRings = function () {
 
   return (
     <div className="row g-3 pt-5">
-      <h4>
-        <em>
-          Un Anello per domarli, un Anello per trovarli, un Anello per ghermirli
-          e nel buio incatenarli
-        </em>
-      </h4>
+      <h4>Per chi non teme le maratone:</h4>
       {isLoading && (
         <div className="text-center my-3">
           <Spinner variant="danger" animation="border" />
@@ -50,12 +45,11 @@ const MyLordOfTheRings = function () {
 
       {isError && (
         <Alert variant="danger" className="text-center">
-          <em>Tessssssoro</em> Qualcosa è andato storto nel recupero dati!
-          <img src="gollum.svg" width="35" />
+          <em>Stupeficium!</em> Qualcosa è andato storto nel recupero dati!
         </Alert>
       )}
 
-      {films?.slice(0, 6).map((film, i) => (
+      {films?.slice(0, 8).map((film, i) => (
         <div key={i} className="col-6 col-md-4 col-lg-2">
           <Link to={"/movie-details/" + film.imdbID}>
             <img
@@ -69,5 +63,4 @@ const MyLordOfTheRings = function () {
     </div>
   )
 }
-
-export default MyLordOfTheRings
+export default MyHarryPotter

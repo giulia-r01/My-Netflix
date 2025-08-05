@@ -2,20 +2,17 @@ import { Container } from "react-bootstrap"
 import MyMatrix from "./MyMatrix"
 import MyAvengers from "./MyAvengers"
 import MyHarryPotter from "./MyHarryPotter"
-import Movie from "./Movie"
+import MyLordOfTheRings from "./MyLordOfTheRings"
 
-const MyMain = function () {
+const RecentlyAdded = function () {
   return (
     <main className="flex-grow-1">
       <Container className="pt-5">
-        <Movie isFullScreen={true} />
-        <h4 className="pt-3">Continua a guardare:</h4>
-        <MyMatrix />
-        <MyHarryPotter />
         <MyAvengers />
+        <MyLordOfTheRings />
       </Container>
     </main>
   )
 }
 
-export default MyMain
+export default RecentlyAdded

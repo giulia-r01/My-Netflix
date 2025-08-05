@@ -61,7 +61,7 @@ const MyJurassicPark = function () {
           recupero!
         </Alert>
       )}
-      {films?.slice(0, 6).map((film, i) => (
+      {films?.slice(0, 4).map((film, i) => (
         <div key={i} className="col-6 col-md-4 col-lg-2">
           <Link to={"/movie-details/" + film.imdbID}>
             <img

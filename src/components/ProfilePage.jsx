@@ -3,18 +3,8 @@ import { Button } from "react-bootstrap"
 const ProfilePage = function () {
   return (
     <>
-      <header>
-        <nav className="navbar bg-body-dark bg-black">
-          <div className="container">
-            <a className="navbar-brand" href="./homepage.html">
-              <img src="netflix_logo.png" width="100" />
-            </a>
-          </div>
-        </nav>
-      </header>
-
-      <main>
-        <section className="container">
+      <main className="pt-5">
+        <section className="container pt-5">
           <div className="row justify-content-center">
             <div className="col-12 col-md-8 col-lg-6 col-xl-4">
               <h2 className="border-bottom border-secondary-subtle">
